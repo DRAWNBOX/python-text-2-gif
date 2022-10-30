@@ -4,6 +4,8 @@ import re
 import time
 
 import multiThreadedSave
+THREADS = 8
+
 
 COLOR_TYPE = 'RGB'
 WHITE = (255, 255, 255)
@@ -29,18 +31,24 @@ def make_frames(images, textinput, file_name):
 
     processing_end_time = time.time()
     processing_time = processing_end_time - start_time
-
     gif_start_time = time.time()
-    #output_gif(images, file_name)
-    multi_threaded_output_gif(images, file_name, 4)
+    output_gif(images, file_name + "_single_threaded")
     gif_end_time = time.time()
-    gif_creation_time = gif_end_time - gif_start_time
 
+    multi_gif_start_time = time.time()
+    multi_threaded_output_gif(images, file_name + "_multi_threaded", THREADS)
+    multi_gif_end_time = time.time()
+
+
+    gif_creation_time = gif_end_time - gif_start_time
+    multi_creation_time = multi_gif_end_time - multi_gif_start_time
     total_time = gif_end_time -start_time
 
     print("Processing Time: " + str(processing_time) + " Seconds.")
-    print("Gif Saving Time: " + str(gif_creation_time) + " Seconds.")
-    print("Total Time: " + str(total_time) + " Seconds.")
+    print("Single Threaded Saving Time: " + str(gif_creation_time) + " Seconds.")
+    print("Multi Threaded Saving Time: " + str(multi_creation_time) + " Seconds.")
+    print("Multi Threading Improvement: " + str(gif_creation_time - multi_creation_time) + " Seconds.")
+
 
 def output_gif(images, file_name) -> None:
         images[0].save("./output_gif/" + file_name + ".gif", save_all=True, append_images=images[1:], optimize=False, duration=250, loop=0)
@@ -48,7 +56,7 @@ def output_gif(images, file_name) -> None:
 def multi_threaded_output_gif(images, file_name, processes):
     if not os.path.exists("./output_gif/"):
         os.mkdir("./output_gif/")
-    print(len(images))
+    print("Saving " + str(len(images)) + " Images.")
     multiThreadedSave.save_gif(images,file_name, processes)
     
 
