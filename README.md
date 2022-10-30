@@ -1,9 +1,17 @@
-# python-gif-2-text
-this enables you to convert gifs into python
+# python-text-2-gif  Multithreaded Testing Branch V1.0.1
 
-to run type ./python Image2GifGui.py
-select a file or input a sentence.
+This enables you to convert gifs into python with multi-threading.
 
-it will output a gif to /output/custom.gif if you selected string
+The multi threading is actually slower so it is pointless right now. 
 
-or /output/{inputfilename}.gif if a file is chosen.
+to run enter
+```
+./python Text2GifGui.py
+```
+select a file, {filename} or input a sentence.
+
+This will output a gif to /output/custom_single_threaded.gif if sentence is selected
+
+or
+
+output a gif to /output/{filename}_single_threaded0.gif and /output/{filename}_multi_threaded0.gif if a file is chosen.

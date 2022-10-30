@@ -42,5 +42,5 @@ def save_gif(images,file_name, processes):
     for thread in threads:
         thread.join()
     
-    #gif_combine(name_list)
+    gif_combine(name_list)
     print("Done")
