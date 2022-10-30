@@ -1,8 +1,9 @@
-from concurrent.futures import process
 import os
 from PIL import Image, ImageDraw, ImageFont
 import re
 import time
+
+import multiThreadedSave
 
 COLOR_TYPE = 'RGB'
 WHITE = (255, 255, 255)
@@ -30,7 +31,8 @@ def make_frames(images, textinput, file_name):
     processing_time = processing_end_time - start_time
 
     gif_start_time = time.time()
-    output_gif(images, file_name)
+    #output_gif(images, file_name)
+    multi_threaded_output_gif(images, file_name, 4)
     gif_end_time = time.time()
     gif_creation_time = gif_end_time - gif_start_time
 
@@ -41,16 +43,15 @@ def make_frames(images, textinput, file_name):
     print("Total Time: " + str(total_time) + " Seconds.")
 
 def output_gif(images, file_name) -> None:
-    
-    #Creates gif frome image array and creates a file.
-    if os.path.exists("./output_gif/"):
         images[0].save("./output_gif/" + file_name + ".gif", save_all=True, append_images=images[1:], optimize=False, duration=250, loop=0)
 
-    else:
+def multi_threaded_output_gif(images, file_name, processes):
+    if not os.path.exists("./output_gif/"):
         os.mkdir("./output_gif/")
-        images[0].save("./output_gif/" + file_name + ".gif", save_all=True, append_images=images[1:], optimize=False, duration=250, loop=0)
-
+    print(len(images))
+    multiThreadedSave.save_gif(images,file_name, processes)
     
+
 
 def openfile(file_path):
     
