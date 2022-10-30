@@ -1,6 +1,9 @@
+from concurrent.futures import process
 import os
 from PIL import Image, ImageDraw, ImageFont
 import re
+import time
+
 COLOR_TYPE = 'RGB'
 WHITE = (255, 255, 255)
 BLACK = (0,0,0)
@@ -13,7 +16,7 @@ comicsans = ImageFont.truetype("comicbd.ttf", 100)
 def make_frames(images, textinput, file_name):
     
     #Generates images of text in images array from text input
-    
+    start_time = time.time()
     for word in textinput:
         img = Image.new(COLOR_TYPE, IMAGE_SIZE, color=WHITE)
         draw = ImageDraw.Draw(img)
@@ -22,8 +25,20 @@ def make_frames(images, textinput, file_name):
         if word == textinput[len(textinput)-1]:
             for frame in range(FRAME_COUNT):
                 images.append(img)
-    
+
+    processing_end_time = time.time()
+    processing_time = processing_end_time - start_time
+
+    gif_start_time = time.time()
     output_gif(images, file_name)
+    gif_end_time = time.time()
+    gif_creation_time = gif_end_time - gif_start_time
+
+    total_time = gif_end_time -start_time
+
+    print("Processing Time: " + str(processing_time) + " Seconds.")
+    print("Gif Saving Time: " + str(gif_creation_time) + " Seconds.")
+    print("Total Time: " + str(total_time) + " Seconds.")
 
 def output_gif(images, file_name) -> None:
     
