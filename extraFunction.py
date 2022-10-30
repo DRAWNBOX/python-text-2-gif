@@ -1,3 +1,4 @@
+import os
 from PIL import Image, ImageDraw, ImageFont
 import re
 COLOR_TYPE = 'RGB'
@@ -27,8 +28,14 @@ def make_frames(images, textinput, file_name):
 def output_gif(images, file_name) -> None:
     
     #Creates gif frome image array and creates a file.
+    if os.path.exists("./output_gif/"):
+        images[0].save("./output_gif/" + file_name + ".gif", save_all=True, append_images=images[1:], optimize=False, duration=250, loop=0)
+
+    else:
+        os.mkdir("./output_gif/")
+        images[0].save("./output_gif/" + file_name + ".gif", save_all=True, append_images=images[1:], optimize=False, duration=250, loop=0)
+
     
-    images[0].save(file_name+".gif", save_all=True, append_images=images[1:], optimize=False, duration=250, loop=0)
 
 def openfile(file_path):
     
