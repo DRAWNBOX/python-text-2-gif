@@ -1,4 +1,4 @@
-# python-gif-2-text
+# python-text-2-gif
 This script enables you to convert gifs into text using python
 
 To run type ./python Image2GifGui.py
